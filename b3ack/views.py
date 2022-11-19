@@ -18,9 +18,11 @@ def search(request):
 def company(request, cod):
     api = B3api()
     company = api.data[cod]
+    quotes = api.get_quotes(cod=cod)
 
     return render(request, "b3ack/company.html", {
-        "company": company
+        "company": company,
+        "quotes": quotes
     })
 
 

@@ -12,9 +12,9 @@ class B3api:
         for i in response:
             self.data[i['cd_acao_rdz']] = i
 
-    def get_quotes(self, id=None, cd=None) -> Optional[dict]:
-        if cd is not None:
-            id = self.data[cd]['id']
+    def get_quotes(self, id=None, cod=None) -> Optional[dict]:
+        if cod is not None:
+            id = self.data[cod]['id']
 
         if id is not None:
             endpoint = f"https://api-cotacao-b3.labdo.it/api/empresa/{id}/cotacoes"
