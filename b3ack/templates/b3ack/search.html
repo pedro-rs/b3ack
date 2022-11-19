@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Quotações</title>
+
+    <link rel="stylesheet" href="{% static 'b3ack/search.css' %}">
+</head>
+<body>
+    <h2>Empresas</h2>
+
+    <input type="text" id="myInput" onkeyup="searchFilter()" placeholder="Pesquise por uma empresa..." title="Type in a name">
+
+    <table id="myTable">
+        <tr class="header">
+            <th style="width:60%;">Código</th>
+            <th style="width:40%;">Empresa</th>
+        </tr>
+
+        {% for company in data %}
+            <tr onclick="window.location = '{% url 'company' company.cd_acao_rdz %}'">
+                <td>{{ company.cd_acao_rdz }}</td>
+                <td>{{ company.nm_empresa }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
+
+<!-- JavaScript -->
+<script src="{% static 'b3ack/search.js' %}"></script>
