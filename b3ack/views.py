@@ -1,10 +1,22 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from b3ack.utils.b3api import B3api
-from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
+import json
+import ast
+
+from b3ack.utils.b3api import B3api
+
+# Models
+from .models import InvestorUser
+
+# Needed since using 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your views here.
 def index_view(request):
@@ -81,3 +93,33 @@ def company_view(request, cod):
         "company": company,
         "quotes": quotes
     })
+
+@csrf_exempt
+@login_required
+def watchlist_view(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        company_id = int(data['companyId'])
+        print(company_id)
+
+        user_id = request.user.id
+        user = InvestorUser.objects.get(id=user_id)
+
+        print(f"Current watchlist: {user.watchlist} for {user}")
+
+        if user.watchlist is None:
+            user.watchlist = f'[{company_id}]'
+            print(f"New watchlist: {user.watchlist}")
+        
+        else:
+            l = ast.literal_eval(user.watchlist)
+            l.append(company_id)
+            user.watchlist = str(l)
+
+        # Updating on DB
+        user.save(update_fields=['watchlist'])
+
+        return JsonResponse({"message": "Added to watchlist successfully."}, status=201)
+
+    else:
+        return HttpResponseRedirect(reverse("index"))
