@@ -12,7 +12,7 @@ import ast
 from b3ack.utils.b3api import B3api
 
 # Models
-from .models import InvestorUser
+from .models import InvestorUser, Company
 
 # Needed since using 
 from django.contrib.auth import get_user_model
@@ -99,26 +99,36 @@ def company_view(request, cod):
 def watchlist_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        company_id = int(data['companyId'])
-        print(company_id)
 
+        # Fetching Company
+        company_code = data['companyCode']
+
+        # If company is not in database yet, create it
+        try:
+            company = Company.objects.get(code=company_code)
+        except Company.DoesNotExist:
+            api = B3api()
+            data = api.data[company_code]
+
+            company_obj = Company(
+                api_id  = data['id'],
+                code    = data['cd_acao_rdz'],
+                name    = data['nm_empresa'],
+            )
+
+            company_obj.save()
+
+            company = Company.objects.get(code=company_code)
+
+        # Fetching user
         user_id = request.user.id
         user = InvestorUser.objects.get(id=user_id)
 
         print(f"Current watchlist: {user.watchlist} for {user}")
 
-        if user.watchlist is None:
-            user.watchlist = f'[{company_id}]'
-            print(f"New watchlist: {user.watchlist}")
+        # Adding Company to user's watchlist
+        user.watchlist.add(company)
         
-        else:
-            l = ast.literal_eval(user.watchlist)
-            l.append(company_id)
-            user.watchlist = str(l)
-
-        # Updating on DB
-        user.save(update_fields=['watchlist'])
-
         return JsonResponse({"message": "Added to watchlist successfully."}, status=201)
 
     else:

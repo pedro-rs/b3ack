@@ -1,14 +1,14 @@
 document.querySelector('#track-company').onclick = () => {
     const btn = document.querySelector("#track-company")
-    const companyId = btn.dataset.companyid
-    addToWatchlist(companyId);
+    const companyCode = btn.dataset.companycode
+    addToWatchlist(companyCode);
 }
 
-function addToWatchlist(companyId) {
+function addToWatchlist(companyCode) {
     fetch('/watchlist', {
         method: 'POST',
         body: JSON.stringify({
-            companyId: companyId
+            companyCode: companyCode
         })
     })
     .then(response => response.json())

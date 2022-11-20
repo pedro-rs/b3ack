@@ -21,6 +21,10 @@ class B3api:
             res = requests.get(endpoint)
             response = json.loads(res.text)
 
-            return response
+            data = dict()
+            for i in response:
+                data[i['cd_acao']] = i
+
+            return data
 
         return None
