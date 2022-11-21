@@ -89,9 +89,22 @@ def company_view(request, cod):
     company = api.data[cod]
     quotes = api.get_quotes(cod=cod)
 
+    if len(request.user.watchlist.filter(code=cod)) != 0:
+        # User currently has this company os his watchlist
+        # Therefore, display graph os tracked stock data
+        data = dict()
+
+        company_data = Company.objects.get(code=cod)
+        data['labels'] = company_data.capture_dt
+        data['values'] = company_data.abr
+
+    else:
+        data = None
+
     return render(request, "b3ack/company.html", {
         "company": company,
-        "quotes": quotes
+        "quotes": quotes,
+        "data": data
     })
 
 @csrf_exempt

@@ -16,6 +16,7 @@ class Company(models.Model):
     max         = models.JSONField(null=True, blank=True)
     min         = models.JSONField(null=True, blank=True)
     fch         = models.JSONField(null=True, blank=True)
+    capture_dt  = models.JSONField(null=True, blank=True)
 
     # create_date = models.DateTimeField(null=True)
     # categories  = models.ManyToManyField(Category, blank=true, related_name=???)

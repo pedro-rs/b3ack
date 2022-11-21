@@ -13,7 +13,17 @@
 <body>
 
 </body>
-    <button id="track-company" data-companycode="{{ company.cd_acao_rdz }}">Monitorar ativo</button>
+    <h1>{{ company.nm_empresa }}</h1>
+    {% if data %}
+        <div id="chart">
+            <canvas id="myChart" width="800" height="200"></canvas>
+            {{ data|json_script:"data" }}
+        </div>
+
+    {% else %}
+        <button id="track-company" data-companycode="{{ company.cd_acao_rdz }}">Monitorar ativo</button>
+    {% endif %}
+
     <div>
         <h2>Informações sobre a empresa</h2>
         {{ company }}
@@ -27,3 +37,6 @@
 
 <!-- JavaScript -->
 <script src="{% static 'b3ack/company.js' %}"></script>
+<!-- Don't change order! -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'b3ack/chart.js' %}"></script>
