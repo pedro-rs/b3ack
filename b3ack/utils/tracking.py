@@ -3,8 +3,7 @@ from b3ack.utils.bcolors import bcolors
 from b3ack.utils.b3api import B3api
 from datetime import datetime
 from b3ack.models import Company
-from multiprocessing import Process, Manager
-import time
+from b3ack.tasks import fetch_stock_task
 
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
@@ -52,7 +51,7 @@ class Tracking():
         now = datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
-        print(bcolors.OKBLUE + f"[{dt_string}] Tracking quotes!" + bcolors.ENDC)
+        print(bcolors.OKBLUE + f"*** [{dt_string}] Tracking quotes!" + bcolors.ENDC)
 
         tracked_companies = Company.objects.all()
 
@@ -62,10 +61,15 @@ class Tracking():
 
         # TODO: This would ideally be done in parallel!
         for company in tracked_companies:
-            print(bcolors.OKCYAN + f"Fetching data for {company.code}..." + bcolors.ENDC)
+            # self.fetch_stock(company.code)
+            fetch_stock_task.delay(company.code)
+            print("Here!")
 
-            stock_code = self.api.data[company.code]['cd_acao'].split(',')[0]
-            data = self.api.get_quotes(cod=company.code)
+    # def fetch_stock(self, company_code: str):
+    #     print(bcolors.OKCYAN + f"Fetching data for {company_code}..." + bcolors.ENDC)
 
-            print(bcolors.OKGREEN + f"Got data for {company.code}!" + bcolors.ENDC)
-            if data is not None: print(data[stock_code])
+    #     stock_code = self.api.data[company_code]['cd_acao'].split(',')[0]
+    #     data = self.api.get_quotes(cod=company_code)
+
+    #     print(bcolors.OKGREEN + f"Got data for {company_code}!" + bcolors.ENDC)
+    #     if data is not None: print(data[stock_code])

@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from b3ack.utils.tracking import Tracking
 
 
 urlpatterns = [
@@ -13,6 +12,3 @@ urlpatterns = [
 
     path("watchlist", views.watchlist_view, name="watchlist"),
 ]
-
-# Whenever app starts, start tracking quotes
-Tracking(60).start_tracking()
