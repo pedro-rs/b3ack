@@ -10,9 +10,11 @@ import json
 import ast
 
 from b3ack.utils.b3api import B3api
+from b3ack.utils.bcolors import bcolors
+from b3ack.utils.tracking import Tracking
 
 # Models
-from .models import InvestorUser, Company
+from .models import InvestorUser, CompanyTracker
 
 # Needed since using 
 from django.contrib.auth import get_user_model
@@ -89,14 +91,17 @@ def company_view(request, cod):
     company = api.data[cod]
     quotes = api.get_quotes(cod=cod)
 
-    if len(request.user.watchlist.filter(code=cod)) != 0:
+    if request.user.is_authenticated and len(request.user.watchlist.filter(code=cod)) != 0:
         # User currently has this company os his watchlist
         # Therefore, display graph os tracked stock data
         data = dict()
 
-        company_data = Company.objects.get(code=cod)
+        company_data = request.user.watchlist.filter(code=cod)[0]
         data['labels'] = company_data.capture_dt
         data['values'] = company_data.abr
+
+        print("aqui")
+        print(data)
 
     else:
         data = None
@@ -113,35 +118,38 @@ def watchlist_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        # Fetching Company
+        # Fetching form data
         company_code = data['companyCode']
+        check_interval = int(data['interval']) * 60 # Converted to minutes
+        print(f"check interval = {check_interval}")
 
-        # If company is not in database yet, create it
-        try:
-            company = Company.objects.get(code=company_code)
-        except Company.DoesNotExist:
-            api = B3api()
-            data = api.data[company_code]
+        # Create a CompanyTracker for the user
+        api = B3api()
+        data = api.data[company_code]
 
-            company_obj = Company(
-                api_id  = data['id'],
-                code    = data['cd_acao_rdz'],
-                name    = data['nm_empresa'],
-            )
+        tracker = CompanyTracker(
+            api_id   = data['id'],
+            code     = data['cd_acao_rdz'],
+            name     = data['nm_empresa'],
+            user     = request.user,
+            interval = check_interval
+        )
 
-            company_obj.save()
-
-            company = Company.objects.get(code=company_code)
+        tracker.save()
 
         # Fetching user
         user_id = request.user.id
         user = InvestorUser.objects.get(id=user_id)
 
-        print(f"Current watchlist: {user.watchlist} for {user}")
-
         # Adding Company to user's watchlist
-        user.watchlist.add(company)
+        tracker = CompanyTracker.objects.filter(code=data['cd_acao_rdz'], user=request.user)[0]
+        user.watchlist.add(tracker)
+
         
+        print(bcolors.WARNING + f"Tracking {tracker.code} every {tracker.interval / 60} minutes for {tracker.user}!" + bcolors.ENDC)
+        Tracking().start_tracking(tracker.interval, tracker.code, tracker.id)
+        
+
         return JsonResponse({"message": "Added to watchlist successfully."}, status=201)
 
     else:

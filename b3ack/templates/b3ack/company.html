@@ -14,14 +14,23 @@
 
 </body>
     <h1>{{ company.nm_empresa }}</h1>
-    {% if data %}
-        <div id="chart">
-            <canvas id="myChart" width="800" height="200"></canvas>
-            {{ data|json_script:"data" }}
-        </div>
+    {% if user.is_authenticated %}
+        {% if data %}
+            <div id="chart">
+                <canvas id="myChart" width="800" height="200"></canvas>
+                {{ data|json_script:"data" }}
+            </div>
+
+        {% else %}
+            <form action="{% url 'watchlist' %}" data-companycode="{{ company.cd_acao_rdz }}" id="track-company">
+                Monitorar a cada <input type="number" min="0" name="check-interval" id="check-interval" required> minutos.
+                <input type="submit" value="Monitorar ativo">
+            </form>
+            <!-- <button id="track-company" data-companycode="{{ company.cd_acao_rdz }}">Monitorar ativo</button> -->
+        {% endif %}
 
     {% else %}
-        <button id="track-company" data-companycode="{{ company.cd_acao_rdz }}">Monitorar ativo</button>
+        <a href="/login">Faça login</a> para monitorar a ação e visualizar seus dados monitorados.
     {% endif %}
 
     <div>

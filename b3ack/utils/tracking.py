@@ -2,7 +2,7 @@ from threading import Timer
 from b3ack.utils.bcolors import bcolors
 from b3ack.utils.b3api import B3api
 from datetime import datetime
-from b3ack.models import Company
+from b3ack.models import CompanyTracker
 from b3ack.tasks import fetch_stock_task
 
 class RepeatedTimer(object):
@@ -31,45 +31,33 @@ class RepeatedTimer(object):
         self.is_running = False
 
 class Tracking():
-    def __init__(self, interval: int):
+    def __init__(self):
         """
         Args:
             interval (int): Interval, in seconds, between fetching quotes
             for tracked companies
         """
-        self.interval = interval
         print(bcolors.OKGREEN + "Initializing tracker!" + bcolors.ENDC)
 
-    def start_tracking(self):
+    def start_tracking(self, interval: int, company_code: str, tracker_id: int):
         # Initializing API
         self.api = B3api()
 
-        self.get_quote()
-        RepeatedTimer(self.interval, self.get_quote)
+        # self.get_quote()
+        # print("Aqui")
+        RepeatedTimer(interval, self.get_quote, company_code, tracker_id)
 
-    def get_quote(self):       
+    def get_quote(self, company_code: str, tracker_id: int):       
         now = datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
         print(bcolors.OKBLUE + f"*** [{dt_string}] Tracking quotes!" + bcolors.ENDC)
 
-        tracked_companies = Company.objects.all()
+        # tracked_companies = CompanyTracker.objects.all()
 
-        if len(tracked_companies) == 0:
-            print(bcolors.FAIL + "No companies to track currently." + bcolors.ENDC)
-            return
+        # if len(tracked_companies) == 0:
+            # print(bcolors.FAIL + "No companies to track currently." + bcolors.ENDC)
+            # return
 
-        # TODO: This would ideally be done in parallel!
-        for company in tracked_companies:
-            # self.fetch_stock(company.code)
-            fetch_stock_task.delay(company.code)
-            print("Here!")
-
-    # def fetch_stock(self, company_code: str):
-    #     print(bcolors.OKCYAN + f"Fetching data for {company_code}..." + bcolors.ENDC)
-
-    #     stock_code = self.api.data[company_code]['cd_acao'].split(',')[0]
-    #     data = self.api.get_quotes(cod=company_code)
-
-    #     print(bcolors.OKGREEN + f"Got data for {company_code}!" + bcolors.ENDC)
-    #     if data is not None: print(data[stock_code])
+        # for company in tracked_companies:
+        fetch_stock_task.delay(company_code, tracker_id)

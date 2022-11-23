@@ -17,11 +17,20 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'b3.settings')
 from b3ack.utils.tracking import Tracking
 import redis
 from b3.celery import app
+from b3ack.models import CompanyTracker
+from b3ack.utils.bcolors import bcolors
 
 r = redis.Redis()
 r.flushdb()
 app.control.purge()
 
-Tracking(60).start_tracking()
+import django
+django.setup()
+
+# for ct in CompanyTracker.objects.all():
+#     # Start tracking all companies
+#     Tracking().start_tracking(ct.interval, ct.code, ct.id)
+#     print(bcolors.WARNING + f"Tracking {ct.code} every {ct.interval / 60} minutes for {ct.user}!" + bcolors.ENDC)
+
 
 application = get_wsgi_application()

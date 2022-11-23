@@ -1,11 +1,11 @@
 from b3ack.utils.bcolors import bcolors
 from b3ack.utils.b3api import B3api
 from celery import shared_task
-from b3ack.models import Company
+from b3ack.models import CompanyTracker
 import datetime
 
 @shared_task()
-def fetch_stock_task(company_code: str):
+def fetch_stock_task(company_code: str, tracker_id: int):
     api = B3api()
     print(bcolors.OKCYAN + f"> Fetching data for {company_code}..." + bcolors.ENDC)
 
@@ -20,7 +20,7 @@ def fetch_stock_task(company_code: str):
     else:
         stock_data = data[stock_code]
         print(stock_data)
-        c = Company.objects.get(code=company_code)
+        c = CompanyTracker.objects.get(id=tracker_id)
 
         print(f"Company = {c}")
 
@@ -28,12 +28,11 @@ def fetch_stock_task(company_code: str):
         dt_str = str(dt.strftime("%d/%m, %H:%M"))
 
         if c.abr is None:
-            c.abr = stock_data['vl_abertura']
-            c.max = stock_data['vl_maximo']
-            c.min = stock_data['vl_minimo']
-            c.fch = stock_data['vl_fechamento']
-            c.capture_dt = dt_str
-
+            c.abr = [stock_data['vl_abertura']]
+            c.max = [stock_data['vl_maximo']]
+            c.min = [stock_data['vl_minimo']]
+            c.fch = [stock_data['vl_fechamento']]
+            c.capture_dt = [dt_str]
 
         else:
             c.abr.append(stock_data['vl_abertura'])
