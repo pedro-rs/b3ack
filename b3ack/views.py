@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 import json
-import ast
 
 from b3ack.utils.b3api import B3api
 from b3ack.utils.bcolors import bcolors
@@ -20,7 +19,6 @@ from .models import InvestorUser, CompanyTracker
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-# Create your views here.
 def index_view(request):
     if not request.user.is_authenticated:
         return HttpResponse("Você não está logado!")
@@ -30,14 +28,17 @@ def index_view(request):
 
 def login_view(request):
     if request.method == "POST":
+        # Attempt to authenticate user
         username = request.POST["username"]
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            # Authentication successful
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
+            # Authentication failed
             return render(request, "b3ack/login.html", {
                 "message": "Credenciais incorretas!"
             })
@@ -68,7 +69,6 @@ def register_view(request):
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError as e:
-            print(e)
             return render(request, "b3ack/register.html", {
                 "message": "Email address or username already taken."
             })
@@ -86,22 +86,19 @@ def search_view(request):
         "data": api.data.values()
     })
 
-def company_view(request, cod):
+def company_view(request, code):
     api = B3api()
-    company = api.data[cod]
-    quotes = api.get_quotes(cod=cod)
+    company = api.data[code]
+    quotes = api.get_quotes(code=code)
 
-    if request.user.is_authenticated and len(request.user.watchlist.filter(code=cod)) != 0:
+    if request.user.is_authenticated and len(request.user.watchlist.filter(code=code)) != 0:
         # User currently has this company os his watchlist
         # Therefore, display graph os tracked stock data
         data = dict()
 
-        company_data = request.user.watchlist.filter(code=cod)[0]
+        company_data = request.user.watchlist.filter(code=code)[0]
         data['labels'] = company_data.capture_dt
         data['values'] = company_data.abr
-
-        print("aqui")
-        print(data)
 
     else:
         data = None

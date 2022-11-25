@@ -1,3 +1,6 @@
+# General Celery setup.
+# Celery is used as the consumer for API request calls.
+
 import os
 from celery import Celery
 

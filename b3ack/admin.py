@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import *
 
-# Register your models here.
+# Registering models.
 admin.site.register(InvestorUser)
 admin.site.register(CompanyTracker)

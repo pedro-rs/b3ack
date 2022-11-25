@@ -1,3 +1,6 @@
+"""Sending emails through an outlook account.
+"""
+
 import smtplib, ssl
 
 # Initialise environment variables
@@ -16,11 +19,18 @@ class Email():
         self.password = env('EMAIL_PASS')
 
     def send(self, receiver_email: str, subject: str, message: str):
+        """Send an email.
+
+        Args:
+            receiver_email (str): Who the email should be sent to (format: <user>@<provider>.<domain>)
+            subject (str): Email's subject
+            message (str): Email's message
+        """
         content = f'Subject: {subject}\n\n{message}'
 
         with smtplib.SMTP(self.smtp_server, self.port) as server:
-            server.ehlo()  # Can be omitted
+            server.ehlo()
             server.starttls(context=self.context)
-            server.ehlo()  # Can be omitted
+            server.ehlo()
             server.login(self.sender_email, self.password)
             server.sendmail(self.sender_email, receiver_email, content)

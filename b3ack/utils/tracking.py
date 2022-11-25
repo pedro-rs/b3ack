@@ -43,21 +43,13 @@ class Tracking():
         # Initializing API
         self.api = B3api()
 
-        # self.get_quote()
-        # print("Aqui")
         RepeatedTimer(interval, self.get_quote, company_code, tracker_id)
 
     def get_quote(self, company_code: str, tracker_id: int):       
         now = datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
-        print(bcolors.OKBLUE + f"*** [{dt_string}] Tracking quotes!" + bcolors.ENDC)
+        # Logging
+        print(bcolors.OKBLUE + f"*** [{dt_string}] Tracking quotes for {company_code}" + bcolors.ENDC)
 
-        # tracked_companies = CompanyTracker.objects.all()
-
-        # if len(tracked_companies) == 0:
-            # print(bcolors.FAIL + "No companies to track currently." + bcolors.ENDC)
-            # return
-
-        # for company in tracked_companies:
         fetch_stock_task.delay(company_code, tracker_id)

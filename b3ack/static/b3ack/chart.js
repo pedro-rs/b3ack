@@ -12,7 +12,7 @@ const myChart = new Chart(ctx, {
         datasets: [{
             fill: {
                 target: 'origin',
-                above: 'rgb(181, 141, 226, 0.5)',   // Area will be red above the origin
+                above: 'rgb(181, 141, 226, 0.5)',
             },
             label: "Valor da ação",
             data: data_values,
@@ -43,7 +43,7 @@ const myChart = new Chart(ctx, {
         plugins: {
             title: {
                 display: true,
-                text: 'Valor das cotações para X'
+                text: 'Valor das cotações'
             }
         },
         
