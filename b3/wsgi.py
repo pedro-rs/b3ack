@@ -27,10 +27,10 @@ app.control.purge()
 import django
 django.setup()
 
-# for ct in CompanyTracker.objects.all():
-#     # Start tracking all companies
-#     Tracking().start_tracking(ct.interval, ct.code, ct.id)
-#     print(bcolors.WARNING + f"Tracking {ct.code} every {ct.interval / 60} minutes for {ct.user}!" + bcolors.ENDC)
+for ct in CompanyTracker.objects.all():
+    # Start tracking all companies
+    Tracking().start_tracking(ct.interval, ct.code, ct.id)
+    print(bcolors.WARNING + f"Tracking {ct.code} every {ct.interval / 60} minutes for {ct.user}!" + bcolors.ENDC)
 
 
 application = get_wsgi_application()

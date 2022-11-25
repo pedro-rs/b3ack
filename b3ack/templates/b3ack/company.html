@@ -16,20 +16,26 @@
     <h1>{{ company.nm_empresa }}</h1>
     {% if user.is_authenticated %}
         {% if data %}
+            <!-- If user is already tracking company, display charts  -->
             <div id="chart">
                 <canvas id="myChart" width="800" height="200"></canvas>
                 {{ data|json_script:"data" }}
             </div>
 
         {% else %}
+            <!-- If user is not tracking company, display tracking options  -->
             <form action="{% url 'watchlist' %}" data-companycode="{{ company.cd_acao_rdz }}" id="track-company">
                 Monitorar a cada <input type="number" min="0" name="check-interval" id="check-interval" required> minutos.
+                <br>
+                <p>Valores de alerta:</p>
+                <p>Compra: <input type="number" min="0" name="buy-value" id="buy-value" required>.</p>
+                <p>Venda: <input type="number" min="0" name="sell-value" id="sell-value" required>.</p>
                 <input type="submit" value="Monitorar ativo">
             </form>
-            <!-- <button id="track-company" data-companycode="{{ company.cd_acao_rdz }}">Monitorar ativo</button> -->
         {% endif %}
 
     {% else %}
+        <!-- If user is not logged in, display the page to do so -->
         <a href="/login">Faça login</a> para monitorar a ação e visualizar seus dados monitorados.
     {% endif %}
 

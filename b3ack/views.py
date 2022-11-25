@@ -120,19 +120,22 @@ def watchlist_view(request):
 
         # Fetching form data
         company_code = data['companyCode']
-        check_interval = int(data['interval']) * 60 # Converted to minutes
-        print(f"check interval = {check_interval}")
+        interval = int(data['interval']) * 60 # Converted to minutes
+        buy_value = int(data['buy_value'])
+        sell_value = int(data['sell_value'])
 
         # Create a CompanyTracker for the user
         api = B3api()
         data = api.data[company_code]
 
         tracker = CompanyTracker(
-            api_id   = data['id'],
-            code     = data['cd_acao_rdz'],
-            name     = data['nm_empresa'],
-            user     = request.user,
-            interval = check_interval
+            api_id     = data['id'],
+            code       = data['cd_acao_rdz'],
+            name       = data['nm_empresa'],
+            user       = request.user,
+            interval   = interval,
+            buy_value  = buy_value,
+            sell_value = sell_value
         )
 
         tracker.save()
@@ -148,7 +151,6 @@ def watchlist_view(request):
         
         print(bcolors.WARNING + f"Tracking {tracker.code} every {tracker.interval / 60} minutes for {tracker.user}!" + bcolors.ENDC)
         Tracking().start_tracking(tracker.interval, tracker.code, tracker.id)
-        
 
         return JsonResponse({"message": "Added to watchlist successfully."}, status=201)
 

@@ -21,5 +21,5 @@ class CompanyTracker(models.Model):
     fch         = models.JSONField(null=True, blank=True)
     capture_dt  = models.JSONField(null=True, blank=True)
 
-    # create_date = models.DateTimeField(null=True)
-    # categories  = models.ManyToManyField(Category, blank=true, related_name=???)
+    sell_value  = models.FloatField(null=True, blank=True)
+    buy_value   = models.FloatField(null=True, blank=True)
