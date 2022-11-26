@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+
+    <link rel="stylesheet" href="{% static 'b3ack/register.css' %}">
 </head>
 <body>
+    <p id="logo">B3ack</p>
     {% if message %}
         <p id="message">{{ message }}</p>
     {% endif %}
     
     <div id="register">
-        <p id="register-text">Register</p>
+        <p id="register-text">Registrar</p>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="username" id="username" placeholder="Username" autocomplete="off">
+            <input type="text" name="username" id="username" placeholder="Nome de usuário" autocomplete="off">
             <input type="text" name="email" id="email" placeholder="Email" autocomplete="off">
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
-            <input type="password" name="confirmation" id="confirmation" placeholder="Confirm Password" autocomplete="off">
-            <input type="submit" id="register-submit" value="Register">
+            <input type="password" name="password" id="password" placeholder="Senha" autocomplete="off">
+            <input type="password" name="confirmation" id="confirmation" placeholder="Confirmar senha" autocomplete="off">
+            <input type="submit" id="register-submit" value="Registrar">
         </form>
 
-        <p id="login">Already have an account? Log in <a href="{% url 'login' %}">here</a>.</p>
+        <p id="login">Já possuí uma conta? Faça login <a href="{% url 'login' %}">aqui</a>.</p>
     </div>
+
+    <div id="circle1"></div>
+    <div id="circle2"></div>
+    <div id="circle3"></div>
 </body>
 </html>

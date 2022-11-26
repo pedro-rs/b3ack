@@ -1,36 +1,97 @@
+:root {
+    --color-dark: #0077b6;
+    --color-mid: #00b4d8;
+    --color-light: #90e0ef;
+
+    --white-mid: rgb(163, 163, 163);
+
+    --dark-grey: #212121;
+    --mid-grey: #303030;
+    --light-grey: #424242;
+}
+
 * {
     box-sizing: border-box;
 }
 
-#myInput {
-    background-image: url('/css/searchicon.png');
+body {
+    font-family: 'Prompt', sans-serif;
+    margin: 30px;
+    background-color: var(--dark-grey);
+    display: grid;
+    justify-items: center;
+}
+
+#logo {
+    position: absolute;
+    left: 50px;
+    top: 20px;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-mid);
+}
+
+h2 {
+    color: white;
+    margin: 0;
+}
+
+p {
+    color: var(--white-mid)
+}
+
+#input {
+    /* background-image: url('/css/searchicon.png');
     background-position: 10px 10px;
-    background-repeat: no-repeat;
-    width: 100%;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
+    background-repeat: no-repeat; */
+
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Prompt', sans-serif;
+    background-color: var(--light-grey);
+    width: 70%;
 }
 
-#myTable {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid #ddd;
-    font-size: 18px;
+#input::placeholder {
+    color: var(--white-mid);
 }
 
-#myTable th,
-#myTable td {
+#table {
+    margin-top: 10px;
+    width: 70%;
+    border-radius: 6px;
+}
+
+#table th {
+    background-color: var(--dark-grey);
+    color: white;
+}
+
+#table td {
+    color: var(--white-mid);
+}
+
+#table th,
+#table td {
     text-align: left;
-    padding: 12px;
+    padding: 10px;
+    border-radius: 6px;
 }
 
-#myTable tr {
-    border-bottom: 1px solid #ddd;
+#table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: var(--color-dark);
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
 }
 
-#myTable tr.header,
-#myTable tr:hover {
-    background-color: #f1f1f1;
+tr:nth-child(even) {
+    background: var(--mid-grey);
+}
+
+tr:nth-child(odd) {
+    background: var(--light-grey);
 }

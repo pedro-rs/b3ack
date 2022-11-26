@@ -1,7 +1,7 @@
 function searchFilter() {
-	var input = document.getElementById("myInput");
+	var input = document.getElementById("input");
 	var filter = input.value.toUpperCase();
-	var table = document.getElementById("myTable");
+	var table = document.getElementById("table");
 	var tr = table.getElementsByTagName("tr");
 
 	// Go through every element in table

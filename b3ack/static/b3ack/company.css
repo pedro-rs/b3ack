@@ -1,0 +1,178 @@
+:root {
+    --color-dark: #0077b6;
+    --color-mid: #00b4d8;
+    --color-light: #90e0ef;
+
+    --white-mid: rgb(163, 163, 163);
+
+    --dark-grey: #212121;
+    --mid-grey: #303030;
+    --light-grey: #424242;
+}
+
+body {
+    font-family: 'Prompt', sans-serif;
+    margin: 50px;
+    background-color: var(--dark-grey);
+}
+
+#logo {
+    position: absolute;
+    left: 50px;
+    top: 20px;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-mid);
+}
+
+#user {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#user > a > svg {
+    fill: var(--white-mid);
+    transform: scale(0.7); 
+}
+
+#user > a > svg:hover {
+    cursor: pointer;
+    fill: var(--color-mid);
+}
+
+#search {
+    position: absolute;
+    right: 120px;
+    top: 20px;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#search > a > svg {
+    fill: var(--white-mid);
+    transform: scale(0.7); 
+}
+
+#search > a > svg:hover {
+    cursor: pointer;
+    fill: var(--color-mid);
+}
+
+#company {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 33% 66%;
+}
+
+h2 {
+    color: white;
+    margin-top: 80px;
+}
+
+form {
+    background-color: var(--mid-grey);
+    border-radius: 6px;
+    border: none;
+    padding: 12px;
+    width: fit-content;
+    justify-self: center;
+}
+
+input {
+    color: white;
+    font-size: 15px;
+}
+
+form > h3, h4 {
+    color: white;
+    margin: 0;
+}
+
+form > p {
+    color: var(--white-mid);
+    font-size: 15px;
+}
+
+input[type=number] {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Prompt', sans-serif;
+    background-color: var(--light-grey);
+    width: 2%;
+    height: 10px;
+}
+
+#input::placeholder {
+    color: var(--white-mid);
+}
+
+#track-submit {
+    background-color: var(--color-mid);
+    color: white;
+    width: 30%;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+}
+
+li {
+    color: var(--white-mid);
+}
+
+/* Hide arrows in number input */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#company-quotes {
+    grid-column: span 2;
+}
+
+#company-name {
+    grid-column: span 2;
+}
+
+#myChart {
+    margin-left: 40px;
+    background-color: var(--mid-grey);
+    border-radius: 6px;
+    border: none;
+    padding: 12px;
+    width: fit-content;
+    justify-items: center;
+    align-self: center;
+    justify-self: center;
+}
+
+#login {
+    background-color: var(--mid-grey);
+    border-radius: 6px;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    color: var(--white-mid);
+    padding: 12px;
+    align-self: center;
+    justify-self: center;
+}
+
+a {
+    color: var(--color-light);
+}

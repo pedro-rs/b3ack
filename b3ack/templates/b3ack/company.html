@@ -1,57 +1,71 @@
+{% extends "b3ack/layout.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ company.cd_acao_rdz }} | {{ company.nm_empresa }}</title>
+{% block title %}{{ company.cd_acao_rdz }} | {{ company.nm_empresa }}{% endblock %}
 
-    <!-- <link rel="stylesheet" href="{% static 'b3ack/search.css' %}"> -->
-</head>
-<body>
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'b3ack/company.css' %}">{% endblock %}
 
-</body>
-    <h1>{{ company.nm_empresa }}</h1>
+
+{% block body %}
+<div id="company">
+    <h2 id="company-name">{{ company.cd_acao_rdz }} | {{ company.nm_empresa }}</h2>
+    <div id="company-info">
+        <h2>Sobre a empresa</h2>
+        <ul>
+            <li>Setor Econômico: {{ company.setor_economico }}</li>
+            <li>Subsetor: {{ company.subsetor }}</li>
+            <li>Segmento: {{ company.segmento }}</li>
+            <li>Segmento B3: {{ company.segmento_b3 }}</li>
+            <li>CNPJ: {{ company.tx_cnpj }}</li>
+        </ul>
+    </div>
     {% if user.is_authenticated %}
         {% if data %}
             <!-- If user is already tracking company, display charts  -->
-            <div id="chart">
+            <div id="chart" class="display-item">
                 <canvas id="myChart" width="800" height="200"></canvas>
                 {{ data|json_script:"data" }}
             </div>
 
         {% else %}
-            <!-- If user is not tracking company, display tracking options  -->
-            <form action="{% url 'watchlist' %}" data-companycode="{{ company.cd_acao_rdz }}" id="track-company">
-                Monitorar a cada <input type="number" min="0" name="check-interval" id="check-interval" required> minutos.
-                <br>
-                <p>Valores de alerta:</p>
-                <p>Compra: <input type="number" min="0" name="buy-value" id="buy-value" required>.</p>
-                <p>Venda: <input type="number" min="0" name="sell-value" id="sell-value" required>.</p>
-                <input type="submit" value="Monitorar ativo">
+        <!-- If user is not tracking company, display tracking options  -->
+        <form action="{% url 'watchlist' %}" data-companycode="{{ company.cd_acao_rdz }}" id="track-company" >
+                <h3>Monitorar Ativo</h3>
+                <p>Monitorar a cada <input type="number" min="0" name="check-interval" id="check-interval" required> minutos.</p>
+                <p>Alerta de compra: R$ <input type="number" min="0" name="buy-value" id="buy-value" required></p>
+                <p>Alerta de venda: R$ <input type="number" min="0" name="sell-value" id="sell-value" required></p>
+                <input type="submit" id="track-submit" value="Monitorar ativo">
             </form>
         {% endif %}
 
     {% else %}
         <!-- If user is not logged in, display the page to do so -->
-        <a href="/login">Faça login</a> para monitorar a ação e visualizar seus dados monitorados.
+        <div class="display-item" id="login">
+            <a href="/login?redirect=company&code={{ company.cd_acao_rdz }}">Faça login</a> para monitorar as cotações visualizar seus dados monitorados.
+        </div>
     {% endif %}
 
-    <div>
-        <h2>Informações sobre a empresa</h2>
-        {{ company }}
-    </div>
-
-    <div>
+    <div id="company-quotes">
         <h2>Cotações da empresa</h2>
-        {{ quotes }}
+        <ul>
+            <li>Código ação: {{ quotes.cd_acao }}</li>
+            <li>Valor abertura: {{ quotes.moeda_ref }}{{ quotes.vl_abertura }}</li>
+            <li>Valor máximo: {{ quotes.moeda_ref }}{{ quotes.vl_maximo }}</li>
+            <li>Valor mínimo: {{ quotes.moeda_ref }}{{ quotes.vl_minimo }}</li>
+            <li>Valor médio: {{ quotes.moeda_ref }}{{ quotes.vl_medio }}</li>
+            <li>Valor fechamento: {{ quotes.moeda_ref }}{{ quotes.vl_fechamento }}</li>
+            <li>Valor melhor oferta compra: {{ quotes.moeda_ref }}{{ quotes.vl_mlh_oft_compra }}</li>
+            <li>Valor melhor oferta venda: {{ quotes.moeda_ref }}{{ quotes.vl_mlh_oft_venda }}</li>
+        </ul>
     </div>
-</html>
+</div>
+{% endblock %}
 
+{% block script %}
 <!-- JavaScript -->
 <script src="{% static 'b3ack/company.js' %}"></script>
 <!-- Don't change order! -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'b3ack/chart.js' %}"></script>
+{% endblock %}

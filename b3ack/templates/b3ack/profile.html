@@ -1,0 +1,25 @@
+{% extends "b3ack/layout.html" %}
+
+{% load static %}
+
+{% load static %}
+
+{% block title %}Perfil de {{ user.username|title }}{% endblock %}
+
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'b3ack/profile.css' %}">{% endblock %}
+
+
+{% block body %}
+<h3>Olá, {{ user.username|title }}! Como vão seus investimentos hoje?</h3>
+<div id="about">
+    <a href="logout">Logout</a>
+</div>
+<div id="about">
+    Meus tracker ativos:
+    <ul>
+        {% for tracker in active_trackers %}
+            <a href="/company/{{ tracker.code }}"><li>{{ tracker.code }} | {{ tracker.name }}</li></a>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

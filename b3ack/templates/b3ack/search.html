@@ -1,36 +1,36 @@
+{% extends "b3ack/layout.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Quotações</title>
+{% load static %}
 
-    <link rel="stylesheet" href="{% static 'b3ack/search.css' %}">
-</head>
-<body>
-    <h2>Empresas</h2>
+{% block title %}Buscar Quotações{% endblock %}
 
-    <input type="text" id="myInput" onkeyup="searchFilter()" placeholder="Pesquise por uma empresa..." title="Type in a name">
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'b3ack/search.css' %}">{% endblock %}
 
-    <table id="myTable">
-        <tr class="header">
-            <th style="width:60%;">Código</th>
-            <th style="width:40%;">Empresa</th>
+
+{% block body %}
+<h2>Buscar quotações</h2>
+<p>Clique em uma empresa para mais informações</p>
+
+<input type="text" id="input" onkeyup="searchFilter()" placeholder="Pesquise por uma empresa...">
+
+<table id="table">
+    <tr class="header">
+        <th style="width:60%;">CÓDIGO</th>
+        <th style="width:40%;">EMPRESA</th>
+    </tr>
+
+    {% for company in data %}
+        <tr onclick="window.location = '{% url 'company' company.cd_acao_rdz %}'">
+            <td>{{ company.cd_acao_rdz }}</td>
+            <td>{{ company.nm_empresa }}</td>
         </tr>
+    {% endfor %}
+</table>
+{% endblock %}
 
-        {% for company in data %}
-            <tr onclick="window.location = '{% url 'company' company.cd_acao_rdz %}'">
-                <td>{{ company.cd_acao_rdz }}</td>
-                <td>{{ company.nm_empresa }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-</body>
-
-</html>
-
+{% block script %}
 <!-- JavaScript -->
 <script src="{% static 'b3ack/search.js' %}"></script>
+{% endblock %}

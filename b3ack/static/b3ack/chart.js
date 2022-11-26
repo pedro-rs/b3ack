@@ -12,12 +12,12 @@ const myChart = new Chart(ctx, {
         datasets: [{
             fill: {
                 target: 'origin',
-                above: 'rgb(181, 141, 226, 0.5)',
+                above: '#00b4d8',
             },
             label: "Valor da ação",
             data: data_values,
-            backgroundColor: 'rgb(0, 0, 0)',
-            borderColor: 'rgb(155, 96, 222)',
+            backgroundColor: '#0077b6',
+            borderColor: '#0077b6',
             borderWidth: 1,
         }]
     },
