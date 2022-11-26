@@ -9,10 +9,17 @@ capturar os dados, e determinando valores máximos e mínimo que, ao atingidos, 
 para este investidor, recomendando a compra/venda.
 
 ## Setup
-Criar .env com as seguintes variáveis:
+- Criar .env com as seguintes variáveis:
 ```
 NOREPLY_EMAIL=noply@b3ack.com (colocar o email que enviará os avisos)
 EMAIL_PASS=(senha do email)
+```
+
+- Inicializar redis e celery junto com servidor:
+```
+$ redis-server
+$ python3 -m celery -A b3 worker -l info
+$ python3 manage.py runserver
 ```
 
 ## Requirements
