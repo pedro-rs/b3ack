@@ -68,10 +68,8 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
 
 def logout_view(request):
-    logout(request)
-
     cache.clear()
-
+    logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -105,7 +103,7 @@ def register_view(request):
         else:
             return HttpResponseRedirect(reverse("index"))
 
-@cache_page(120)
+@cache_page(300)
 def search_view(request):
     api = B3api()
 
@@ -113,7 +111,7 @@ def search_view(request):
         "data": api.data.values()
     })
 
-@cache_page(120)
+@cache_page(300)
 def company_view(request, code):
     api = B3api()
     company = api.data[code]
