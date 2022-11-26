@@ -79,7 +79,7 @@ form {
     background-color: var(--mid-grey);
     border-radius: 6px;
     border: none;
-    padding: 12px;
+    padding: 15px;
     width: fit-content;
     justify-self: center;
 }
@@ -106,7 +106,7 @@ input[type=number] {
     border: none;
     font-family: 'Prompt', sans-serif;
     background-color: var(--light-grey);
-    width: 2%;
+    width: 4%;
     height: 10px;
 }
 

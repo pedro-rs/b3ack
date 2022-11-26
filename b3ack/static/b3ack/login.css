@@ -68,6 +68,10 @@ input[type=text]::placeholder, [type=password]::placeholder {
     color: var(--white-mid);
 }
 
+input, select, textarea{
+    color: white;
+}
+
 #login-text {
     display: grid;
     justify-content: center;

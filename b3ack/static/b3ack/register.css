@@ -46,6 +46,10 @@ body {
     z-index: 2;
 }
 
+input, select, textarea{
+    color: white;
+}
+
 form {
     display: grid;
     grid-template-rows: auto auto auto auto auto;
