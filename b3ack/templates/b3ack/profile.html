@@ -15,11 +15,18 @@
     <a href="logout">Logout</a>
 </div>
 <div id="about">
-    Meus tracker ativos:
-    <ul>
-        {% for tracker in active_trackers %}
-            <a href="/company/{{ tracker.code }}"><li>{{ tracker.code }} | {{ tracker.name }}</li></a>
-        {% endfor %}
-    </ul>
+    {% if active_trackers %}
+        Meus tracker ativos:
+        <ul>
+            {% for tracker in active_trackers %}
+                <a href="/company/{{ tracker.code }}"><li>{{ tracker.code }} | {{ tracker.name }}</li></a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        Você ainda não tem nenhum tracker ativo :( 
+        <br>
+        <br>
+        <a href="search">Pesquise</a> sua primeira cotação para acompanhar!
+    {% endif %}
 </div>
 {% endblock %}

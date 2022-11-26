@@ -12,7 +12,7 @@ document.querySelector('#track-company').onsubmit = () => {
 
 function addToWatchlist(companyCode, interval, buy_value, sell_value) {
     // Make an API POSt call to register new Company Tracker
-    fetch('/watchlist', {
+    fetch('/watchlist?track=true', {
         method: 'POST',
         body: JSON.stringify({
             companyCode: companyCode,

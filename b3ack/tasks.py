@@ -14,7 +14,7 @@ def fetch_stock_task(company_code: str, tracker_id: int):
     api = B3api()
     print(bcolors.OKCYAN + f"> Fetching data for {company_code}..." + bcolors.ENDC)
 
-    stock_code = api.data[company_code]['cd_acao'].split(',')[0]
+    # stock_code = api.data[company_code]['cd_acao'].split(',')[0]
     data = api.get_quotes(code=company_code)
 
     if data is None: 
@@ -22,7 +22,7 @@ def fetch_stock_task(company_code: str, tracker_id: int):
 
     else:
         print(bcolors.OKGREEN + f"> Got data for {company_code}!" + bcolors.ENDC)
-        stock_data = data[stock_code]
+        stock_data = list(data.values())[0]
         ct = CompanyTracker.objects.get(id=tracker_id)
 
         dt = datetime.datetime.now()

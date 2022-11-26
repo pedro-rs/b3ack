@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from django.views.decorators.cache import never_cache
 
 import json
 
@@ -74,6 +75,8 @@ def logout_view(request):
 
 
 def register_view(request):
+    cache.clear()
+
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -111,6 +114,7 @@ def search_view(request):
         "data": api.data.values()
     })
 
+@never_cache
 @cache_page(300)
 def company_view(request, code):
     api = B3api()
@@ -129,7 +133,7 @@ def company_view(request, code):
     else:
         data = None
 
-    relevant_quote = quotes[company['cd_acao'].split(',')[0]]
+    relevant_quote = list(quotes.values())[0]
 
     return render(request, "b3ack/company.html", {
         "company": company,

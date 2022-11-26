@@ -55,6 +55,10 @@ p {
     width: 70%;
 }
 
+input, select, textarea{
+    color: white;
+}
+
 #input::placeholder {
     color: var(--white-mid);
 }

@@ -106,7 +106,7 @@ input[type=number] {
     border: none;
     font-family: 'Prompt', sans-serif;
     background-color: var(--light-grey);
-    width: 4%;
+    width: 6%;
     height: 10px;
 }
 

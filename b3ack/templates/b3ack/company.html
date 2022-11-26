@@ -32,9 +32,9 @@
         <!-- If user is not tracking company, display tracking options  -->
         <form action="{% url 'watchlist' %}" data-companycode="{{ company.cd_acao_rdz }}" id="track-company" >
                 <h3>Monitorar Ativo</h3>
-                <p>Monitorar a cada <input type="number" min="0" name="check-interval" id="check-interval" required> minutos.</p>
-                <p>Alerta de compra: R$ <input type="number" min="0" name="buy-value" id="buy-value" required></p>
-                <p>Alerta de venda: R$ <input type="number" min="0" name="sell-value" id="sell-value" required></p>
+                <p>Monitorar a cada <input type="number" step="0.01" min="0" name="check-interval" id="check-interval" required> minutos.</p>
+                <p>Alerta de compra: R$ <input type="number" step="0.01" min="0" name="buy-value" id="buy-value" required></p>
+                <p>Alerta de venda: R$ <input type="number" step="0.01" min="0" name="sell-value" id="sell-value" required></p>
                 <input type="submit" id="track-submit" value="Monitorar ativo">
             </form>
         {% endif %}
