@@ -23,6 +23,6 @@ class CompanyTracker(models.Model):
     capture_dt  = models.JSONField(null=True, blank=True) # Date and time data was registered
 
     # Maximum value at which user will be alerted to sell stocks
-    sell_value  = models.FloatField(null=True, blank=True)
+    sell_value  = models.FloatField()
     # Minimum value at which user will be alerted to buy stocks 
-    buy_value   = models.FloatField(null=True, blank=True)
+    buy_value   = models.FloatField()

@@ -145,13 +145,15 @@ def company_view(request, code):
 @login_required
 def watchlist_view(request):
     if request.method == "POST":
+        cache.clear()
+
         data = json.loads(request.body)
 
         # Fetching form data
         company_code = data['companyCode']
         interval = int(data['interval']) * 60 # Converted to minutes
-        buy_value = int(data['buy_value'])
-        sell_value = int(data['sell_value'])
+        buy_value = float(data['buy_value'])
+        sell_value = float(data['sell_value'])
 
         # Create a CompanyTracker for the user
         api = B3api()
@@ -184,7 +186,7 @@ def watchlist_view(request):
         return JsonResponse({"message": "Added to watchlist successfully."}, status=201)
 
     else:
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("profile"))
 
 @login_required()
 def profile_view(request):
