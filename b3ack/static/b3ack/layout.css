@@ -1,3 +1,16 @@
+:root {
+    /* Variables */
+    --color-dark: #0077b6;
+    --color-mid: #00b4d8;
+    --color-light: #90e0ef;
+
+    --white-mid: rgb(163, 163, 163);
+
+    --dark-grey: #212121;
+    --mid-grey: #303030;
+    --light-grey: #424242;
+}
+
 #logo {
     position: absolute;
     left: 50px;

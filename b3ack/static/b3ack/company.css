@@ -1,4 +1,5 @@
 :root {
+    /* Variables */
     --color-dark: #0077b6;
     --color-mid: #00b4d8;
     --color-light: #90e0ef;
@@ -16,63 +17,22 @@ body {
     background-color: var(--dark-grey);
 }
 
-#logo {
-    position: absolute;
-    left: 50px;
-    top: 20px;
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--color-mid);
-}
-
-#user {
-    position: absolute;
-    right: 50px;
-    top: 20px;
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-#user > a > svg {
-    fill: var(--white-mid);
-    transform: scale(0.7); 
-}
-
-#user > a > svg:hover {
-    cursor: pointer;
-    fill: var(--color-mid);
-}
-
-#search {
-    position: absolute;
-    right: 120px;
-    top: 20px;
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-#search > a > svg {
-    fill: var(--white-mid);
-    transform: scale(0.7); 
-}
-
-#search > a > svg:hover {
-    cursor: pointer;
-    fill: var(--color-mid);
-}
-
 #company {
     display: grid;
     grid-template-rows: auto auto auto;
     grid-template-columns: 33% 66%;
 }
 
+#company-name {
+    margin-top: 80px;
+    background-color: var(--mid-grey);
+    border-radius: 6px;
+    border: none;
+    padding: 15px;
+}
+
 h2 {
     color: white;
-    margin-top: 80px;
 }
 
 form {

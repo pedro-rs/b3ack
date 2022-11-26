@@ -125,6 +125,11 @@ a {
     color: var(--color-light);
 }
 
+#logo-href {
+    width: fit-content;
+    position: absolute;
+}
+
 #message {
     position: absolute;
     justify-self: center;
