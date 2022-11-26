@@ -41,8 +41,6 @@ class Tracking():
 
     def start_tracking(self, interval: int, company_code: str, tracker_id: int):
         # Initializing API
-        self.api = B3api()
-
         RepeatedTimer(interval, self.get_quote, company_code, tracker_id)
 
     def get_quote(self, company_code: str, tracker_id: int):       
